@@ -3,7 +3,7 @@
 import numpy as np
 
 # Switcing frequency
-f_sw = 500*10**3
+f_sw = 400*10**3
 slew_rate = 0.5*10**6
 R_T = 41550000 / f_sw - 2.2
 print(R_T)
