@@ -3,7 +3,7 @@
 import numpy as np
 
 # Switcing frequency
-f_sw = 400*10**3
+f_sw = 500*10**3
 slew_rate = 0.5*10**6
 R_T = 41550000 / f_sw - 2.2
 print(R_T)
@@ -61,10 +61,17 @@ C_ss = T_ss * I_ss / (V_out_nom * 0.8)
 
 # Output voltage resistors
 R_ratio = 5/0.6-1
-R_l = 10**3
-R_u = R_l*R_ratio
+R_FB1 = 20*10**3
+R_FB2 = R_FB1*R_ratio
+
+
+# Bootstrap capacitor
+Q_g = 
 
 
 print('Output inductor:', L_o*10**6, 'µH')
 print('Output capacitor:', C_out*10**6, 'µF')
 print('ESR:',ESR,'Ω')
+print('R_FB1:',R_FB1/1000,'kΩ')
+print('R_FB2:',R_FB2/1000,'kΩ')
+print('R_T:',R_T,'Ω')
