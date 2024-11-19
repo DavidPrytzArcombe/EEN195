@@ -6,7 +6,6 @@ import numpy as np
 f_sw = 500*10**3
 slew_rate = 0.5*10**6
 R_T = 41550000 / f_sw - 2.2
-print(R_T)
 
 # Input voltages
 V_in_nom = 14.5
@@ -25,7 +24,7 @@ I_ripple_percentage = 0.3
 I_ripple = I_out * I_ripple_percentage
 
 # Output inductor
-L_o = V_out_nom * (V_in_max - V_out_nom) / (V_in_max * I_ripple * f_sw)
+L_o = V_out_nom * (1 - V_out_nom / V_in_max) / (I_ripple * f_sw)
 
 # Output capacitor
 # 1. Maintain output current
@@ -52,11 +51,12 @@ I_co_rms = V_out_nom * (V_in_max - V_out_nom) / (np.sqrt(12) * V_in_max * L_o * 
 # Input capacitor
 C_in = 10*10**-6
 Delta_V_in = (I_out + I_ripple / 2) / (4 * C_in * f_sw)
+I_cin_rms = I_out * V_out_nom / V_in_nom * np.sqrt(V_in_nom / V_out_nom - 1)
 
 # Soft start
 T_ss = 5 * 10**-3
 I_ss = 1*10**-6
-C_ss = T_ss * I_ss / (V_out_nom * 0.8)
+C_ss = T_ss * I_ss / 0.6
 
 
 # Output voltage resistors
@@ -66,8 +66,10 @@ R_FB2 = R_FB1*R_ratio
 
 
 # Bootstrap capacitor
-Q_g = 
-
+Q_g = 9.4 * 10**-9
+INTVCC_min = 4.6
+U_schottky = 0.2
+C_b = Q_g / (INTVCC_min - U_schottky) * 100
 
 print('Output inductor:', L_o*10**6, 'µH')
 print('Output capacitor:', C_out*10**6, 'µF')
@@ -75,3 +77,6 @@ print('ESR:',ESR,'Ω')
 print('R_FB1:',R_FB1/1000,'kΩ')
 print('R_FB2:',R_FB2/1000,'kΩ')
 print('R_T:',R_T,'Ω')
+print('C_b:',C_b*10**9,'nF')
+print('C_ss:',C_ss*10**9,'nF')
+print('I_cin_rms:',I_cin_rms,'A')
