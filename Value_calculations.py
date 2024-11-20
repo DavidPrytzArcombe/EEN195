@@ -49,9 +49,14 @@ I_co_rms = V_out_nom * (V_in_max - V_out_nom) / (np.sqrt(12) * V_in_max * L_o * 
 
 
 # Input capacitor
-C_in = 10*10**-6
+#C_in = 10*10**-6
+eta = 0.85
+dc = V_out_nom / (V_in_nom * eta)
+V_Pmax = 75 * 10**-3
+C_in = I_out * dc * (1 - dc) / (f_sw * V_Pmax)
 Delta_V_in = (I_out + I_ripple / 2) / (4 * C_in * f_sw)
 I_cin_rms = I_out * V_out_nom / V_in_nom * np.sqrt(V_in_nom / V_out_nom - 1)
+
 
 # Soft start
 T_ss = 5 * 10**-3
@@ -71,12 +76,13 @@ INTVCC_min = 4.6
 U_schottky = 0.2
 C_b = Q_g / (INTVCC_min - U_schottky) * 100
 
-print('Output inductor:', L_o*10**6, 'µH')
-print('Output capacitor:', C_out*10**6, 'µF')
-print('ESR:',ESR,'Ω')
-print('R_FB1:',R_FB1/1000,'kΩ')
-print('R_FB2:',R_FB2/1000,'kΩ')
-print('R_T:',R_T,'Ω')
-print('C_b:',C_b*10**9,'nF')
-print('C_ss:',C_ss*10**9,'nF')
-print('I_cin_rms:',I_cin_rms,'A')
+print('Output inductor:', '%.2f' % (L_o*10**6), 'µH')
+print('Output capacitor:', '%.2f' % (C_out*10**6), 'µF')
+print('ESR:','%.2f' % ESR,'Ω')
+print('R_FB1:','%.2f' % (R_FB1/1000),'kΩ')
+print('R_FB2:','%.2f' % (R_FB2/1000),'kΩ')
+print('R_T:','%.2f' % R_T,'Ω')
+print('C_b:','%.2f' % (C_b*10**9),'nF')
+print('C_ss:','%.2f' % (C_ss*10**9),'nF')
+print('C_in:','%.2f' % (C_in*10**6),'µF')
+print('I_cin_rms:','%.2f' % I_cin_rms,'A')
