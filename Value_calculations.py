@@ -49,13 +49,20 @@ I_co_rms = V_out_nom * (V_in_max - V_out_nom) / (np.sqrt(12) * V_in_max * L_o * 
 
 
 # Input capacitor
-#C_in = 10*10**-6
+# Ceramic
 eta = 0.85
 dc = V_out_nom / (V_in_nom * eta)
 V_Pmax = 75 * 10**-3
 C_in = I_out * dc * (1 - dc) / (f_sw * V_Pmax)
 Delta_V_in = (I_out + I_ripple / 2) / (4 * C_in * f_sw)
 I_cin_rms = I_out * V_out_nom / V_in_nom * np.sqrt(V_in_nom / V_out_nom - 1)
+
+# Bulk
+Delta_V_in = 0.35
+L_f = 1*10**-6
+I_tr = 3.16 - 0.05
+C_bulk = 1.21 * I_tr**2 * L_f / Delta_V_in**2
+print('Input bulk capacitance:','%.2f' % (C_bulk*10**6),'µF')
 
 
 # Soft start
@@ -84,5 +91,5 @@ print('R_FB2:','%.2f' % (R_FB2/1000),'kΩ')
 print('R_T:','%.2f' % R_T,'Ω')
 print('C_b:','%.2f' % (C_b*10**9),'nF')
 print('C_ss:','%.2f' % (C_ss*10**9),'nF')
-print('C_in:','%.2f' % (C_in*10**6),'µF')
+print('Ceramic input capacitance:','%.2f' % (C_in*10**6),'µF')
 print('I_cin_rms:','%.2f' % I_cin_rms,'A')
