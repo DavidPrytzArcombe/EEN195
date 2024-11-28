@@ -66,7 +66,7 @@ print('Input bulk capacitance:','%.2f' % (C_bulk*10**6),'µF')
 
 
 # Soft start
-T_ss = 5 * 10**-3
+T_ss = 40* 10**-3
 I_ss = 1*10**-6
 C_ss = T_ss * I_ss / 0.6
 
